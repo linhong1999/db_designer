@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户信息管理系统</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/static/js/jQuery1.7.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        td, th {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h3 style="text-align: center">学生选择课程</h3>
+
+{#    <div style="float: left;">#}
+{##}
+{#        <form class="form-inline" action="" method="post">#}
+{#            <div class="form-group">#}
+{#                <label for="exampleInputName2">课程类型</label>#}
+{#                <input type="text" class="form-control" id="exampleInputName2" name="tocType">#}
+{#            </div>#}
+{#            <div class="form-group">#}
+{#                <label for="exampleInputName3">课程名称</label>#}
+{#                <input type="text" class="form-control" id="exampleInputName3" name="tocCName">#}
+{#            </div>#}
+{#            <div class="form-group">#}
+{#                <label for="exampleInputEmail2">课程学分</label>#}
+{#                <input type="text" class="form-control" id="exampleInputEmail2" name="tocScore" >#}
+{#            </div>#}
+{#            <div class="form-group">#}
+{#                <label for="exampleInputEmail2">课程容量</label>#}
+{#                <input type="text" class="form-control" id="exampleInputEmail2" name="tocCapacity" >#}
+{#            </div>#}
+{#            <div class="form-group">#}
+{#                <label for="exampleInputEmail2">开放时间</label>#}
+{#                <input type="text" class="form-control" id="exampleInputEmail2" name="tocOpenTime" >#}
+{#            </div>#}
+{#            <div class="form-group">#}
+{#                <label for="exampleInputEmail2">备注</label>#}
+{#                <input type="text" class="form-control" id="exampleInputEmail2" name="tocTerm" >#}
+{#            </div>#}
+{#            <button type="submit" class="btn btn-default">添加</button>#}
+{#        </form>#}
+{##}
+{#    </div>#}
+
+    <div style="float: right;margin: 5px;">
+        <a class="btn btn-primary" href="">查看我的课程</a>
+        <a class="btn btn-primary" href="">查看全校课程</a>
+    </div>
+    <h><p style="font-size: 30px">未选教师课程:</p></h>
+    <table border="1" class="table table-bordered table-hover">
+        <tr class="success">
+                <th>课程编号</th>
+                <th>课程名称</th>
+                <th>课程类型</th>
+                <th>课程教师</th>
+                <th>成绩</th>
+                <th>课程状态</th>
+                <th>操作</th>
+        </tr>
+        {% for col in already_choosed %}
+        <tr class="success">
+            <td>{{ col.cCNo.cNo_id }}</td>
+            <td>{{ col.cCNo.cName }}</td>
+            <td>{{ col.get_cType_display }} 类</td>
+            {% if col.cTeacher_id == '1002' %}
+                    <td>
+                        <select name="tName" id="{{ col.cCNo.cNo_id }}" >
+                            <option value="0">请选择教师</option>
+                            {% for course_list in same_tch_list%}
+                                {% if course_list.1 == col.cCNo.cName %}
+                                    <option value="{{ course_list.0 }}">{{ course_list.0 }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>{{ col.cGrade }}</td>
+                    <td>{{ col.get_cStatus_display }}</td>
+                <td><a id="{{ col.cCNo.cNo_id }}{{ col.cCNo.cNo_id }}"><button type="button" class="btn btn-default">添加</button></a></td>
+            <script>
+                $("#{{ col.cCNo.cNo_id }}").change(function () {
+                    var url = $("#{{ col.cCNo.cNo_id }}").find("option:selected").val();
+                    $('#{{ col.cCNo.cNo_id }}{{ col.cCNo.cNo_id }}').attr('href','/stu_add_course/?cCNo={{ col.cCNo_id }}&cTeacher=' + url)
+                })
+            </script>
+            {% else %}
+                <td>{{ col.cTeacher.tName }}</td>
+                <td>{{ col.cGrade }}</td>
+                <td>{{ col.get_cStatus_display }}</td>
+                </form>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li>
+                    <a href="" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <h>
+        <p style="font-size: 30px">已选课程:</p></h>
+<table border="1" class="table table-bordered table-hover">
+        <tr class="success">
+                <th>课程编号</th>
+                <th>课程名称</th>
+                <th>课程类型</th>
+                <th>所属学院</th>
+                <th>所属专业</th>
+                <th>建议学期</th>
+                <th>课程容量/已选人数</th>
+                <th>课程学分</th>
+                <th>课程状态</th>
+                <th>开课教师</th>
+                <th>操作</th>
+        </tr>
+        {% for col in courses %}
+        <tr class="success">
+            <td>{{ col.course.cNo.cNo_id }}</td>
+            <td>{{ col.course.cName }}</td>
+            <td>{{ col.course.get_cType_display }} 类</td>
+            <td>{{ col.course.cDepart.dName }}</td>
+            <td>{{ col.course.cDepartMajor.dmName }}</td>
+            <td>{{ col.course.cTerm }}</td>
+            <td>{{ col.course.cCapacity }}/{{ col.remaining }}</td>
+            <td>{{ col.course.cScore }}</td>
+            <td>{{ col.course.get_cStatus_display }}</td>
+            <td>{{ col.course.cTeacher.tName }}</td>
+            <td><a href="/stu_del_course/?cCNo={{ col.course.cNo_id }}" class="btn btn-primary">退选</a> </td>
+        </tr>
+        {% endfor %}
+    </table>
+<p style="font-size: 30px">院选课程:</p></h>
+    <table border="1" class="table table-bordered table-hover">
+        <tr class="success">
+                <th>课程编号</th>
+                <th>课程名称</th>
+                <th>课程类型</th>
+                <th>所属学院</th>
+                <th>所属专业</th>
+                <th>建议学期</th>
+                <th>课程容量/已选人数</th>
+                <th>课程学分</th>
+                <th>开课教师</th>
+                <th>操作</th>
+        </tr>
+        {% for col in B_opened %}
+        <tr class="success">
+            <td>{{ col.B_opened.cNo_id }}</td>
+            <td>{{ col.B_opened.cName }}</td>
+            <td>{{ col.B_opened.get_cType_display }} 类</td>
+            <td>{{ col.B_opened.cDepart.dName }}</td>
+            <td>{{ col.B_opened.cDepartMajor.dmName }}</td>
+            <td>{{ col.B_opened.cTerm }}</td>
+            <td>{{ col.B_opened.cCapacity }}/{{ col.remaining }}</td>
+            <td>{{ col.B_opened.cScore }}</td>
+            <td>{{ col.B_opened.cTeacher.tName }}</td>
+            <td><a href="/stu_add_course/?cCNo={{ col.B_opened.id }}&cTeacher={{ col.B_opened.cTeacher.tNo }}" class="btn btn-primary">选定</a> </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+{#    </form>#}
+    <div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li>
+                    <a href="" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+<p style="font-size: 30px">可选课程:</p></h>
+    <table border="1" class="table table-bordered table-hover">
+        <tr class="success">
+                <th>课程编号</th>
+                <th>课程名称</th>
+                <th>课程类型</th>
+                <th>所属学院</th>
+                <th>所属专业</th>
+                <th>建议学期</th>
+                <th>课程容量/已选人数</th>
+                <th>课程学分</th>
+                <th>开课教师</th>
+        </tr>
+        {% for col in other_opened %}
+        <tr class="success">
+            <td>{{ col.other_opened.cNo_id }}</td>
+            <td>{{ col.other_opened.cName }}</td>
+            <td>{{ col.other_opened.get_cType_display }} 类</td>
+            <td>{{ col.other_opened.cDepart.dName }}</td>
+            <td>{{ col.other_opened.cDepartMajor.dmName }}</td>
+            <td>{{ col.other_opened.cTerm }}</td>
+            <td>{{ col.other_opened.cCapacity }}/{{ col.remaining }}</td>
+            <td>{{ col.other_opened.cScore }}</td>
+            <td>{{ col.other_opened.cTeacher.tName }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+{#    </form>#}
+    <div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li>
+                    <a href="" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+{#    <div id="scid"  style="width: 500px;display: none">#}
+{#        <div class="panel panel-default" >#}
+{#            <div class="panel-heading" style="text-align: center">学生选课表</div>#}
+{#            <table class="table" id="sc_table">#}
+{#                <thead>#}
+{#                <tr><td>学生姓名</td><td>课程名称</td><td>成绩</td></tr>#}
+{#                </thead>#}
+{#                <tbody id="tbodyid">#}
+{##}
+{#                </tbody>#}
+{#            </table>#}
+{#            <script>#}
+{##}
+{#            </script>#}
+{#        </div>#}
+{#    </div>#}
+</div>
+
+</body>
+</html>

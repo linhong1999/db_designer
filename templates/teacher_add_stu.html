@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户信息管理系统</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/static/js/jQuery1.7.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        td, th {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<table border="1" class="table table-bordered table-hover">
+        <tr class="success">
+            <td><a href="/teacher_add_course_html/" class="btn btn-primary">添加课程</a></td>
+            <td><a href="/teacher_add_stu_html/" class="btn btn-primary">添加学生</a></td>
+            <td><a href="/teacher_edit_grade_html/" class="btn btn-primary">上课情况</a></td>
+        </tr>
+    </table>
+<div class="container">
+    <h3 style="text-align: center">添加学生</h3>
+
+    <div style="float: left;">
+
+        <form class="form-inline" action="/teacher_add_stu/" method="post">
+            <div class="form-group">
+                <label for="exampleInputName2">学生学号</label>
+                <input type="text" class="form-control" id="exampleInputName2" name="sNo">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputName3">学生姓名</label>
+                <input type="text" class="form-control" id="exampleInputName3" name="sName">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail2">性别</label>
+                <input type="text" class="form-control" id="exampleInputEmail2" name="sSex" >
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail2">学院</label>
+                <input type="text" class="form-control" id="exampleInputEmail2" placeholder="默认" name="sD" >
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail2">专业</label>
+                <input type="text" class="form-control" id="exampleInputEmail2" placeholder="默认" name="sDM" >
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail2">导师</label>
+                <input type="text" class="form-control" id="exampleInputEmail2" placeholder="默认" name="s_mentor" >
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail2">入学年份</label>
+                <input type="text" class="form-control" id="exampleInputEmail2" name="sYear" >
+            </div>
+            <button type="submit" class="btn btn-default">添加</button>
+        </form>
+
+    </div>
+
+    <div style="float: right;margin: 5px;">
+        <a class="btn btn-primary" href="">查看所有学生</a>
+        <a class="btn btn-primary" href="javascript:void (0);" id="delete">删除选中</a>
+    </div>
+{#    <form action="" method="post">#}
+    <table border="1" class="table table-bordered table-hover">
+        <tr class="success">
+                <th>学生学号</th>
+                <th>学生姓名</th>
+                <th>性别</th>
+                <th>导师</th>
+                <th>入学年份</th>
+                <th>学院</th>
+                <th>班级</th>
+        </tr>
+        {% for col in items %}
+        <tr class="success">
+            <td>{{ col.sNo }}</td>
+            <td>{{ col.sName }}</td>
+            <td>{{ col.sSex }}</td>
+            <td>{{ col.s_mentor }}</td>
+            <td>{{ col.sYear }}</td>
+            <td>{{ col.sD }}</td>
+            <td>{{ col.sDM }}{{ col.scNo }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+{#    </form>#}
+    <div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li>
+                    <a href="" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+{#    <div id="scid"  style="width: 500px;display: none">#}
+{#        <div class="panel panel-default" >#}
+{#            <div class="panel-heading" style="text-align: center">学生选课表</div>#}
+{#            <table class="table" id="sc_table">#}
+{#                <thead>#}
+{#                <tr><td>学生姓名</td><td>课程名称</td><td>成绩</td></tr>#}
+{#                </thead>#}
+{#                <tbody id="tbodyid">#}
+{##}
+{#                </tbody>#}
+{#            </table>#}
+{#            <script>#}
+{##}
+{#            </script>#}
+{#        </div>#}
+{#    </div>#}
+</div>
+
+</body>
+</html>

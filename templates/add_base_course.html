@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户信息管理系统</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/static/js/jQuery1.7.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        td, th {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<table border="1" class="table table-bordered table-hover">
+        <tr class="success">
+            <td><a href="/add_depart_html/" class="btn btn-primary">添加学院</a></td>
+            <td><a href="/add_depart_major_html/" class="btn btn-primary">添加专业</a></td>
+            <td><a href="/add_teacher_html/" class="btn btn-primary">添加教师</a></td>
+            <td><a href="/add_base_course_html/" class="btn btn-primary">添加基础课程</a></td>
+        </tr>
+    </table>
+<div class="container">
+    <h3 style="text-align: center">添加基础课程</h3>
+    <div style="float: left;">
+        <form class="form-inline" action="/add_base_course/" method="post">
+            <div class="form-group">
+                <label for="exampleInputName2">课程编号</label>
+                <input type="text" class="form-control" id="exampleInputName2" name="ciNo">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputName3">课程名称</label>
+                <input type="text" class="form-control" id="exampleInputName3" name="ciName">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail2">课程类型</label>
+                <input type="text" class="form-control" id="exampleInputEmail2" name="ciType" >
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail2">所属学院</label>
+                <input type="text" class="form-control" id="exampleInputEmail2" name="ciD" >
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail2">所属专业</label>
+                <input type="text" class="form-control" id="exampleInputEmail2" name="ciDM" >
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail2">课程学分</label>
+                <input type="text" class="form-control" id="exampleInputEmail2" name="ciScore" >
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail2">课程容量</label>
+                <input type="text" class="form-control" id="exampleInputEmail2" name="ciCapacity" >
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail2">学期</label>
+                <input type="text" class="form-control" id="exampleInputEmail2" name="ciTerm" >
+            </div>
+            <button type="submit" class="btn btn-default">添加</button>
+        </form>
+
+    </div>
+
+    <div style="float: right;margin: 5px;">
+        <a class="btn btn-primary" href="">查看所有学院</a>
+        <a class="btn btn-primary" href="">查看所有系</a>
+        <a class="btn btn-primary" href="javascript:void (0);" id="delete">删除选中</a>
+    </div>
+{#    <form action="" method="post">#}
+    <table border="1" class="table table-bordered table-hover">
+        <tr class="success">
+                <th>课程编号</th>
+                <th>课程名称</th>
+                <th>课程类型</th>
+                <th>所属学院</th>
+                <th>所属专业</th>
+                <th>课程教师</th>
+                <th>课程学分</th>
+                <th>课程容量</th>
+                <th>学期</th>
+                <th>操作</th>
+        </tr>
+        {% for col in items %}
+        <tr class="success">
+            <td>{{ col.cNo }}</td>
+            <td>{{ col.cName }}</td>
+            <td>{{ col.cType }} 类</td>
+            <td>{{ col.cDepart }}</td>
+            <td>{{ col.cDepartMajor }}</td>
+            <td>{{ col.cTeacher }}</td>
+            <td>{{ col.cScore }}</td>
+            <td>{{ col.cCapacity }}</td>
+            <td>{{ col.cTerm }}</td>
+            <td><a href="/del_base_course/?cNo={{ col.cNo }}" class="btn btn-primary">删除</a> </td>
+        </tr>
+        {% endfor %}
+    </table>
+{#    </form>#}
+    <div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li>
+                    <a href="" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+{#    <div id="scid"  style="width: 500px;display: none">#}
+{#        <div class="panel panel-default" >#}
+{#            <div class="panel-heading" style="text-align: center">学生选课表</div>#}
+{#            <table class="table" id="sc_table">#}
+{#                <thead>#}
+{#                <tr><td>学生姓名</td><td>课程名称</td><td>成绩</td></tr>#}
+{#                </thead>#}
+{#                <tbody id="tbodyid">#}
+{##}
+{#                </tbody>#}
+{#            </table>#}
+{#            <script>#}
+{##}
+{#            </script>#}
+{#        </div>#}
+{#    </div>#}
+</div>
+
+</body>
+</html>
